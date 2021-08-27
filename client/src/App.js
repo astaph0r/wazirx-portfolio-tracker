@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { Header } from "./Components/Header";
-import { Portfolio } from "./Components/Portfolio";
+import { Tracker } from "./Components/Tracker";
 import { Login } from "./Components/Login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -11,6 +11,15 @@ function App() {
 			image: "https://via.placeholder.com/100x100",
 			title: "ABCD",
 			difficulty: "Hard",
+			time: "20",
+			servings: "12",
+			author: "ANDKSK",
+			rating: "3.0",
+		},
+		{
+			image: "https://via.placeholder.com/100x100",
+			title: "EFCFFF",
+			difficulty: "Easy",
 			time: "20",
 			servings: "12",
 			author: "ANDKSK",
@@ -49,7 +58,7 @@ function App() {
 							return (
 								<>
 									<Header logo={logo} />
-									<Portfolio coins={coins} />
+									<Tracker coins={coins} />
 								</>
 							);
 						}}
@@ -61,7 +70,7 @@ function App() {
 							return (
 								<>
 									<Header logo={logo} />
-									<Portfolio coins={coins} />
+									<Tracker coins={coins} />
 								</>
 							);
 						}}
