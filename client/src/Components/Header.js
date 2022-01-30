@@ -40,7 +40,7 @@ export const Header = (props) => {
 						</button>
 					</Link>
 				</div>
-				<button className="navbar-menu md:order-3 w-1/12 md:w-28 md:px-4 flex items-center justify-end text-base font-medium rounded-md text-gray-800 bg-white hover:bg-gray-200">
+				<a className="navbar-menu md:order-3 w-1/12 md:w-28 md:px-4 flex items-center justify-end text-base font-medium rounded-md text-gray-800 bg-white hover:bg-gray-200" href="/logout">
 					<img
 						src={logout}
 						width="20"
@@ -50,7 +50,7 @@ export const Header = (props) => {
 					/>
 
 					<span className="hidden md:block">Logout</span>
-				</button>
+				</a>
 			</nav>
 			<hr className=" mb-8 md:mb-4 mt-1" />
 		</>

@@ -3,9 +3,18 @@ import "./App.css";
 import { Header } from "./Components/Header";
 import { Tracker } from "./Components/Tracker";
 import { Login } from "./Components/Login";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { Error404 } from "./Components/Error404";
 
 function App() {
+
+	// if (window.location.href.includes("home#")) {
+	// 	const uri = window.location.href;
+	// 	const token = uri.slice(uri.indexOf("#") + 1);
+	// 	localStorage.setItem("token", token);
+	// 	window.history.replaceState({}, "home", "/home");
+	// }
+
 	const coins = [
 		{
 			image: "https://via.placeholder.com/100x100",
@@ -50,7 +59,7 @@ function App() {
 								</>
 							);
 						}}
-					></Route>
+					/>
 					<Route
 						exact
 						path="/home"
@@ -62,8 +71,8 @@ function App() {
 								</>
 							);
 						}}
-					></Route>
-          <Route
+					/>
+					<Route
 						exact
 						path="/portfolio"
 						render={() => {
@@ -74,8 +83,8 @@ function App() {
 								</>
 							);
 						}}
-					></Route>
-          <Route
+					/>
+					<Route
 						exact
 						path="/add"
 						render={() => {
@@ -85,7 +94,10 @@ function App() {
 								</>
 							);
 						}}
-					></Route>
+					/>
+					<Route exact path="*">
+						<Error404 />
+					</Route>
 				</Switch>
 			</Router>
 		</>

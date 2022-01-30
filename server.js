@@ -7,12 +7,15 @@ const session = require('express-session');
 const helmet = require('helmet');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const { contentSecurityPolicy } = require('helmet');
 require('dotenv').config({ path: '.env' });
 // require('./config/passport')(passport);
 require('./config/auth');
 
-// HelmetJS
-app.use(helmet());
+//HelmetJS
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 
 mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopology : true}, { useFindAndModify: false})
 .then(() => console.log('Connected to MongoDB'))
@@ -33,44 +36,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// passport.use(
-//   new GoogleStrategy({
-//     clientID: process.env.GOOGLE_CLIENT_ID,
-//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//     callbackURL: 'https://localhost:5000/auth/google/callback'
-//   }, (accessToken, refreshToken, profile, done) => {
-//       // passport callback function
-//       //check if user already exists in our db with the given profile ID
-//       done(null, profile);
-//       // User.findOne({googleId: profile.id}).then((currentUser)=>{
-//       //   if(currentUser){
-//       //     //if we already have a record with the given profile ID
-//       //     done(null, currentUser);
-//       //   } else{
-//       //        //if not, create a new user 
-//       //       new User({
-//       //         googleId: profile.id,
-//       //       }).save().then((newUser) =>{
-//       //         done(null, newUser);
-//       //       });
-//       //    } 
-//       // })
-//     })
-// );
 
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
+
+// app.get('/', (req, res) => {
+//   res.send('<a href="/auth/google">Authenticate with Google</a>');
 // });
-
-// passport.deserializeUser((id, done) => {
-//   User.findById(id).then(user => {
-//     done(null, user);
-//   });
-// });
-
-app.get('/', (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
 
 
 
@@ -104,12 +74,18 @@ app.get('/auth/google/failure', (req, res) => {
   res.send('Failed to authenticate..');
 });
 
-// app.get("/auth/logout", (req, res) => {
-//   req.logout();
-//   res.send(req.user);
-// });
+if (process.env.NODE_ENV === 'production') {
+	// Express will serve up production assets
+	// like our main.js file, or main.css file!
+	app.use(express.static('client/build'));
 
-// app.use('/', routes);
+	// Express will serve up the index.html file
+	// if it doesn't recognize the route
+	const path = require('path');
+	app.get('/*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
