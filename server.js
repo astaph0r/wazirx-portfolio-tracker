@@ -1,9 +1,10 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
 const routes = require('./routes/routes');
 const mongoose = require('mongoose');
-const session = require('express-session');
+// const session = require('express-session');
 const helmet = require('helmet');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -25,54 +26,15 @@ mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopolog
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
-const isLoggedIn = (req, res, next) => {
-  req.user ? next() : res.sendStatus(401);
-}
-
-app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: true }));
+// app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
+app.use('/', routes);
 
-
-
-// app.get('/', (req, res) => {
-//   res.send('<a href="/auth/google">Authenticate with Google</a>');
-// });
-
-
-
-app.get("/auth/google", passport.authenticate("google", {
-  scope: [
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/userinfo.email'
-]
-}));
-
-
-app.get( '/auth/google/callback',
-  passport.authenticate( 'google', {
-    successRedirect: '/protected',
-    failureRedirect: '/auth/google/failure'
-  })
-);
-
-app.get('/protected', isLoggedIn, (req, res) => {
-  console.log(req.user.displayPicture);
-  res.send(`Hello ${req.user.firstName}`);
-});
-
-app.get('/logout', (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.send('Goodbye!');
-});
-
-app.get('/auth/google/failure', (req, res) => {
-  res.send('Failed to authenticate..');
-});
 
 if (process.env.NODE_ENV === 'production') {
 	// Express will serve up production assets

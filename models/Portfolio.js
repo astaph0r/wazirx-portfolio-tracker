@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const portfolioSchema = mongoose.Schema({
   coins: [{
-    market: {
+      market: {
         type: String,
         trim: true,
         required: true
@@ -11,13 +11,9 @@ const portfolioSchema = mongoose.Schema({
         type: Number,
         required: true
       },
-      amountOfCoins: {
+      buyingPrice: {
         type: Number,
         required: true
-      },
-      boughtWorth: {
-        type: mongoose.Schema.Types.ObjectId,
-        unique: true
       },
       date: {
         type: Date,

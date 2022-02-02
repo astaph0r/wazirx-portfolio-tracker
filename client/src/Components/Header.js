@@ -8,7 +8,7 @@ export const Header = (props) => {
 			<nav className="flex bg-white flex-wrap items-center justify-between p-2 mt-2">
 				<div className="md:order-2 w-auto md:w-1/5 lg:text-center absolute left-1/2 transform -translate-x-1/2">
 					<div className="text-xl text-gray-800 font-semibold font-heading">
-						Charlie Rabiller
+						{props.user.firstName + ' ' + props.user.lastName}
 					</div>
 				</div>
 				<div className="block md:hidden">

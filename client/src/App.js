@@ -3,8 +3,11 @@ import "./App.css";
 import { Header } from "./Components/Header";
 import { Tracker } from "./Components/Tracker";
 import { Login } from "./Components/Login";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { Error404 } from "./Components/Error404";
+// import { isAuthenticated } from "./Middlewares/authService" 
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
 
@@ -14,6 +17,20 @@ function App() {
 	// 	localStorage.setItem("token", token);
 	// 	window.history.replaceState({}, "home", "/home");
 	// }
+
+	async function fetchData() {
+		const response = await axios.get('http://localhost:5000/isAuthenticated');
+		const user = await response.data;
+		setUser(user);
+	}
+// eslint-disable-next-line
+	const [user, setUser] = useState([]);
+
+	useEffect(() => {		
+		fetchData();
+	}, []);
+
+	console.log(user);
 
 	const coins = [
 		{
@@ -49,55 +66,47 @@ function App() {
 		<>
 			<Router>
 				<Switch>
-					<Route
-						exact
-						path="/"
-						render={() => {
-							return (
-								<>
+					
+					<Route exact path="/">
+						{!user
+							? 	<>
 									<Login />
 								</>
-							);
-						}}
-					/>
-					<Route
-						exact
-						path="/home"
-						render={() => {
-							return (
-								<>
-									<Header logo={logo} />
+							: <Redirect to="/home"/>
+						}
+					</Route>
+					<Route exact path="/home">
+						{user
+							?	<>
+									<Header logo={logo} user={user}/>
 									<Tracker coins={coins} />
 								</>
-							);
-						}}
-					/>
-					<Route
-						exact
-						path="/portfolio"
-						render={() => {
-							return (
-								<>
-									<Header logo={logo} />
+							: <Redirect to="/"/>
+						}
+								
+					</Route>
+					<Route exact path="/portfolio">
+						
+						{user
+							?	<>
+									<Header logo={logo} user={user} />
 									<Tracker coins={coins} />
 								</>
-							);
-						}}
-					/>
-					<Route
-						exact
-						path="/add"
-						render={() => {
-							return (
-								<>
-									<Header logo={logo} />
+							: <Redirect to="/"/>
+						}
+					</Route>
+					<Route exact path="/add">
+						{user
+							?	<>
+									<Header logo={logo} user={user} />
 								</>
-							);
-						}}
-					/>
+							: <Redirect to="/"/>
+						}					
+					</Route>
 					<Route exact path="*">
 						<Error404 />
 					</Route>
+
 				</Switch>
 			</Router>
 		</>

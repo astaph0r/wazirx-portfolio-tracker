@@ -10,17 +10,23 @@ passport.use(new GoogleStrategy({
   callbackURL: 'http://localhost:5000/auth/google/callback',
   passReqToCallback: true,
 },
-function(request, accessToken, refreshToken, profile, done) {
-  console.log(profile);
-  User.findOne({googleId: profile.id})
-  .then((currentUser)=>{
-    if(currentUser){
+(async (request, accessToken, refreshToken, profile, done) => {
+  // console.log(profile);
+  User.findOne({googleID: profile.id})
+  .then((existingUser)=>{
+    if(existingUser){
           //if we already have a record with the given profile ID
-        done(null, currentUser);
+        // const token = existingUser.generateAuthToken();
+        // console.log(token);
+        // response.cookie("jwt", token, {
+        //   expires: new Date(Date.now()+604800),
+        //   httpOnly: true
+        // })
+        done(null, existingUser);
     } else{
          //if not, create a new user 
         new User({ 
-          googleId: profile.id,
+          googleID: profile.id,
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           email: profile.emails[0].value,
@@ -29,11 +35,17 @@ function(request, accessToken, refreshToken, profile, done) {
         })
         .save().
         then((newUser) =>{
+          // const token = newUser.generateAuthToken();
+          // console.log(token);
+          // response.cookie("jwt", token, {
+          //   expires: new Date(Date.now()+604800),
+          //   httpOnly: true
+          // })
           done(null, newUser);
         });
     }})
     .catch( err => console.log("error occured", err.message))
-}));
+})));
 
 passport.serializeUser(function(user, done) {
   done(null, user);
