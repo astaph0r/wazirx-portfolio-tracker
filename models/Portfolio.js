@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const portfolioSchema = mongoose.Schema({
+  userID: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+  },
   coins: [{
       market: {
         type: String,
@@ -18,6 +22,7 @@ const portfolioSchema = mongoose.Schema({
       date: {
         type: Date,
         required: true,
+        default: Date.now()
       }
   }],
 });

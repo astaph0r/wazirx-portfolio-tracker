@@ -1,13 +1,14 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require("../models/User");
+const Portfolio = require("../models/Portfolio");
 const mongoose = require('mongoose');
 
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:5000/auth/google/callback',
+  callbackURL: process.env.BASEURL+'/auth/google/callback',
   passReqToCallback: true,
 },
 (async (request, accessToken, refreshToken, profile, done) => {
@@ -25,6 +26,7 @@ passport.use(new GoogleStrategy({
         done(null, existingUser);
     } else{
          //if not, create a new user 
+         
         new User({ 
           googleID: profile.id,
           firstName: profile.name.givenName,
@@ -33,18 +35,17 @@ passport.use(new GoogleStrategy({
           displayPicture: profile._json.picture,
 
         })
-        .save().
-        then((newUser) =>{
-          // const token = newUser.generateAuthToken();
-          // console.log(token);
-          // response.cookie("jwt", token, {
-          //   expires: new Date(Date.now()+604800),
-          //   httpOnly: true
-          // })
-          done(null, newUser);
+        .save()
+        .then((newUser) =>{
+          new Portfolio({
+            userID: newUser._id,
+            coins: []
+          })
+          .save()
+          .then(done(null, newUser));
         });
     }})
-    .catch( err => console.log("error occured", err.message))
+    .catch( err => console.log("error occurred", err.message))
 })));
 
 passport.serializeUser(function(user, done) {

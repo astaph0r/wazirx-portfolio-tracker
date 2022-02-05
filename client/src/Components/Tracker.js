@@ -1,7 +1,8 @@
 import React from "react";
 import { TrackerItem } from "./TrackerItem";
 
-export const Tracker = ({ coins }) => {
+export const Tracker = ({ coins, onDelete }) => {
+	// console.log(coins);
 	return (
 		<div className="divide-y divide-gray-100">
 			<div className="container mx-auto flex flex-col w-full items-center justify-center">
@@ -35,11 +36,26 @@ export const Tracker = ({ coins }) => {
 							</div>
 						</div>
 					</li>
-					<ul class="flex flex-col">
-						{coins.map((coin) => (
-							<TrackerItem key={coin.id} coin={coin} />
-						))}
-					</ul>
+
+					{coins.length > 0 ? (
+						<ul className="flex flex-col">
+							{coins.map((coin) => (
+								<TrackerItem
+									key={coin.id}
+									coin={coin}
+									onDelete={onDelete}
+								/>
+							))}
+						</ul>
+					) : (
+						<div className="transition duration-500 shadow ease-in-out transform hover:-translate-y-1 hover:shadow-lg select-none cursor-pointer bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4">
+							<div className="flex w-full flex-col mx-auto items-center justify-between">
+								<div className="text-gray-800 dark:text-gray-200 my-2  md:w-4/5 text-center text-s">
+									<span className="mx-auto">No Coins</span>
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

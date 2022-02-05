@@ -7,7 +7,7 @@ export const Login = () => {
 				<div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
 					Login To Your Account
 				</div>
-				<form action="http://localhost:5000/auth/google">
+				<form action="/auth/google">
 					<button
 						type="submit"
 						className="py-2 px-4 flex justify-center items-center  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
