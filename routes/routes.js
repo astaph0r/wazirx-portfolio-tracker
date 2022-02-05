@@ -44,17 +44,17 @@ const Authenticated = (req, res) => {
 //     }
 // }
 
-router.get("/isAuthenticated", async (req, res) => {
-    try {
-        const token = req.cookies.jwt;
-        const verified = jwt.verify(token, process.env.SECRET);
-        const user = await User.findById(verified._id);
-        const portfolio = await Portfolio.findOne({userID: verified._id});
-        res.send({user, portfolio});
-    } catch (error) {
-        res.send(undefined);
-    }
-});
+// router.get("/isAuthenticated", async (req, res) => {
+//     try {
+//         const token = req.cookies.jwt;
+//         const verified = jwt.verify(token, process.env.SECRET);
+//         const user = await User.findById(verified._id);
+//         const portfolio = await Portfolio.findOne({userID: verified._id});
+//         res.send({user, portfolio});
+//     } catch (error) {
+//         res.send(undefined);
+//     }
+// });
 
 router.get("/details", async (req, res) => {
     try {
@@ -181,9 +181,9 @@ router.get( '/auth/google/callback',(req, res) => {
 // });
   
 router.get('/logout', (req, res) => {
-    req.logout();
+    res.clearCookie('jwt');
     // req.session.destroy();
-    res.send('Goodbye!');
+    res.redirect('/')
 });
   
 router.get('/auth/google/failure', (req, res) => {
