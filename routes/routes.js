@@ -144,9 +144,12 @@ router.put("/portfolio", async (req, res) =>{
             { $set: {'coins':update} },
             { new: true}
         );
-        res.status(200)
+        res.status(200);
+        res.send("success");
     } catch (error) {
-        res.status(409)
+        console.log(error.message);
+        res.status(409);
+        res.send(failure);
     }
 });
 
