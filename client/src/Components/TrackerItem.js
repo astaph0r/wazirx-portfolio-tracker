@@ -5,7 +5,7 @@ export const TrackerItem = ({ coin, onDelete }) => {
 		<li className="border-gray-400 flex flex-col md:flex-row mb-2">
 			<div className="transition duration-500 shadow ease-in-out transform hover:-translate-y-1 hover:shadow-lg select-none cursor-pointer bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4">
 				<div className="flex-1 pl-1 md:mr-16">
-					<div className="font-medium dark:text-white">Jean Marc</div>
+					<div className="font-medium dark:text-white">{coin.name}</div>
 					<div className="text-gray-600 dark:text-gray-200 text-sm">
 						{coin.market}
 					</div>

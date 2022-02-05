@@ -28,7 +28,8 @@ const Authenticated = (req, res) => {
         const verified = jwt.verify(token, process.env.SECRET);
         return verified;
     } catch (error) {
-        throw error;
+        console.log(error.message)
+        return undefined;
     }
 }
 
@@ -83,7 +84,7 @@ router.get("/details", async (req, res) => {
                        return true
                     }
                 });
-                // coin["date"] = new Date(coin.date);
+                coin["name"] = found.name;
                 coin["_id"] = mongoose.Types.ObjectId(coin._id);
                 coin["latestPrice"] = Number(found.last);
                 

@@ -51,6 +51,20 @@ function App() {
 		}));
 	};
 
+	const onChangeMarket = (e) => {
+		const { id, value } = e.target;
+		const newPrice = markets.find((market, index) => {
+			if (market.ticker === value) {
+			   return true
+			}
+		}).last;
+		setFormState((prevState) => ({
+			...prevState,
+			[id]: value,
+			formPrice: newPrice
+		}));
+	};
+
 	const onSubmit = () => {
 		const update = [
 			...portfolio,
@@ -83,13 +97,16 @@ function App() {
 	const [user, setUser] = useState([]);
 	const [portfolio, setPortfolio] = useState([]);
 	const [markets, setMarkets] = useState([]);
+	// let newPrice;
+
+
 
 	// eslint-disable-next-line
 	const [formState, setFormState] = useState({
 		formDate: new Date().toISOString().slice(0, -5),
 		formMarket: "btcinr",
 		formQuantity: 1,
-		formPrice: 0,
+		formPrice: undefined,
 	});
 
 	useEffect(() => {
@@ -123,6 +140,7 @@ function App() {
 									setFormState={setFormState}
 									markets={markets}
 									onChange={onChange}
+									onChangeMarket={onChangeMarket}
 									onSubmit={onSubmit}
 								/>
 								<Tracker
@@ -156,6 +174,7 @@ function App() {
 									setFormState={setFormState}
 									markets={markets}
 									onChange={onChange}
+									onChangeMarket={onChangeMarket}
 									onSubmit={onSubmit}
 								/>
 							</>
