@@ -42,7 +42,8 @@ passport.use(new GoogleStrategy({
             coins: []
           })
           .save()
-          .then(done(null, newUser));
+          .then(done(null, newUser))
+          .catch(error => console.log(error));
         });
     }})
     .catch( err => console.log("error occurred", err.message))
