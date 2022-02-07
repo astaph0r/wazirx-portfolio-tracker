@@ -5,23 +5,13 @@ import logout from "../logout.svg";
 export const Header = (props) => {
 	return (
 		<>
-			<nav className="flex bg-white flex-wrap items-center justify-between p-2 mt-2">
-				<div className="md:order-2 w-auto md:w-1/5 lg:text-center absolute left-1/2 transform -translate-x-1/2">
+			<nav className="flex bg-white flex-wrap items-center justify-between py-2 px-4 md:px-2 mt-2">
+				<div className="md:order-2 w-auto md:w-1/5 md:text-center md:mx-2 md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
 					<div className="text-xl text-gray-800 font-semibold font-heading">
-						{!props.user? "Empty": props.user.firstName + ' ' + props.user.lastName  }
+						{!props.user
+							? "Empty"
+							: props.user.firstName + " " + props.user.lastName}
 					</div>
-				</div>
-				<div className="block md:hidden">
-					<button className="navbar-burger flex items-center py-2 px-3 text-indigo-500 rounded border border-indigo-500">
-						<svg
-							className="fill-current h-3 w-3"
-							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<title>Menu</title>
-							<path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-						</svg>
-					</button>
 				</div>
 				<div className="navbar-menu hidden md:order-1 pl-2 md:block w-full md:w-2/5">
 					<Link to="/home">
@@ -40,7 +30,10 @@ export const Header = (props) => {
 						</button>
 					</Link>
 				</div>
-				<a className="navbar-menu md:order-3 w-1/12 md:w-28 md:px-4 flex items-center justify-end text-base font-medium rounded-md text-gray-800 bg-white hover:bg-gray-200" href="/logout">
+				<a
+					className="navbar-menu md:order-3 w-1/12 md:w-28 md:px-4 flex items-center justify-end text-base font-medium rounded-md text-gray-800 bg-white hover:bg-gray-200"
+					href="/logout"
+				>
 					<img
 						src={logout}
 						width="20"
@@ -52,7 +45,32 @@ export const Header = (props) => {
 					<span className="hidden md:block">Logout</span>
 				</a>
 			</nav>
-			<hr className=" mb-8 md:mb-4 mt-1" />
+			<hr className="mb-2 mt-1" />
+
+			<nav className="flex bg-white  md:hidden flex-wrap items-center justify-between px-4">
+					<div className="navbar-menu block order-1">
+						<Link to="/home">
+							<button className="block mt-1 md:mt-0 mr-10 text-blue-900 hover:text-indigo-600">
+								Home
+							</button>
+						</Link>
+					</div>
+					<div className="navbar-menu block order-2">
+						<Link to="/portfolio">
+							<button className="block mt-1 mr-10 text-blue-900 hover:text-indigo-600">
+								Portfolio
+							</button>
+						</Link>
+					</div>
+					<div className="navbar-menu block order-3">
+						<Link to="/add">
+							<button className="block mt-1 text-blue-900 hover:text-indigo-600">
+								Add Coin
+							</button>
+						</Link>
+					</div>
+			</nav>
+			<hr className="md:hidden mb-4 mt-2" />
 		</>
 	);
 };

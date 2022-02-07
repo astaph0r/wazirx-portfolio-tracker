@@ -95,7 +95,7 @@ router.get("/details", async (req, res) => {
         // console.log({user, portfolio, markets});
         res.send({user, portfolio, markets});
     } catch (error) {
-        console.log(error);
+        console.log("Error:", error.message);
         res.send(undefined);
     }
 });
